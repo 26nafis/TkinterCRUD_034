@@ -223,4 +223,4 @@ if name == 'main':
     init_db()
     root = tk.Tk()
     app = NilaiApp(root)
-    root.mainloop()
+    root.mainloop() 
