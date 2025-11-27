@@ -169,7 +169,43 @@ class NilaiApp:
         self.summary.grid(row=1, column=0, columnspan=2, sticky='we', padx=14)
 
         self.load_table()
-    
+    def on_update(self):
+        selected = self.tree.selection()
+        messagebox.showwarning('Update', 'pilih data di tabel dulu.')
+        return
+    item = self.tree.item(selected[0])
+    id_val = item['values'][0]
+
+    nama = self.entry_nama.get()
+    bio_s = self.entry_bio.get()
+    fis_s = self.entry_fis.get()
+    ing_s = self.entry_ing.get()
+
+    if not self.validate_inputs(nama, bio_s, fis_s, ing_s):
+        return
+    bio, fis, ing = float(bio_s), float(fis_s), float(ing_s)
+    prediksi = predict_fakultas(bio, fis, ing)
+
+    update_nilai(id_val, nama, bio, fis, ing, prediksi)
+    messagebox.showinfo('Update', 'Data berhasil diperbarui.')
+    self.load_table()
+
+def on_delete(self):
+    selected = self.tree.selection()
+    if not selected:
+        messagebox.showwarning('Delete', 'Pilih data di tabel dulu.')
+        return
+
+    item = self.tree.item(selected[0])
+    id_val = item['values'][0]
+
+    confirm = messagebox.askyesno('Konfirmasi', 'Yakin ingin menghapus data ini?')
+    if confirm:
+        delete_nilai(id_val)
+        messagebox.showinfo('Delete', 'Data berhasil dihapus.')
+        self.load_table()
+
+
 
 
     # ==== FUNCTIONS YANG DIPINDAHKAN KELUAR DARI init ====
